@@ -13,9 +13,31 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
+                    <table class="min-w-full table-auto" style="background-color: rgb(234, 217, 217)">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2 text-left text-gray-700">Metric</th>
+                                <th class="px-4 py-2 text-left text-gray-700">Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-gray-100">
+                                <td class="border px-4 py-2">Total Books</td>
+                                <td class="border px-4 py-2">{{ $books }}</td>
+                            </tr>
+                            <tr>
+                                <td class="border px-4 py-2">Total Users</td>
+                                <td class="border px-4 py-2">{{ $users }}</td>
+                            </tr>
+                            <tr class="bg-gray-100">
+                                <td class="border px-4 py-2">Total Borrowed</td>
+                                <td class="border px-4 py-2">{{ $borrowed }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+
 </x-app-layout>

@@ -71,6 +71,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/student/books', [AdminController::class, 'borrowed_books'])->name('borrowed_books');
     // let student return a book
     Route::get('/book/{id}return', [BorrowController::class, 'book_return'])->name('book_return');
+
+    // total books
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 });
 
 require __DIR__ . '/auth.php';

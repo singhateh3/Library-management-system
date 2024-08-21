@@ -7,7 +7,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg" style="background-color: rgb(234, 217, 217)">
                 <div class="p-6 text-gray-900">
 
                     <body>
@@ -19,9 +19,9 @@
                             <table>
 
                                 <tr>
-                                    <th>Title</th>
-                                    <th>Author</th>
-                                    <th>Status</th>
+                                    <th class="px-6 py-4 whitespace-nowrap">Title</th>
+                                    <th class="px-6 py-4 whitespace-nowrap">Author</th>
+                                    <th class="px-6 py-4 whitespace-nowrap">Status</th>
                                 </tr>
 
                                 @foreach ($books as $book)
