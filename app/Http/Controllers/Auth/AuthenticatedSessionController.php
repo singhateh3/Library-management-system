@@ -36,7 +36,7 @@ class AuthenticatedSessionController extends Controller
         match ($role) {
             'admin' => redirect()->route('admin.index'),
             'student' => redirect()->route('book.index'),
-            'librarian' => redirect()->route('borrow_request'),
+            'librarian' => redirect()->route('pending_request'),
             default => redirect()->route('books.index'),
         };
 
