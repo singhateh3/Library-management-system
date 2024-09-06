@@ -180,4 +180,13 @@ class AdminController extends Controller
             return view('studentBook.borrowed', compact('borrowed_books'));
         }
     }
+
+    public function dashboard()
+    {
+        $books = Book::count();
+        $users = User::count();
+        $borrowed = Borrow::count();
+
+        return view('dashboard', compact('books', 'users', 'borrowed'));
+    }
 }

@@ -47,16 +47,4 @@ class BorrowController extends Controller
         $borrow->save();
         return redirect()->back();
     }
-
-
-
-    // PRACTISE
-    // Create a method in your User model to check if a user has borrowed a specific book and if that book has been returned
-    // Create a method named hasReturnedBook($bookId) in the User model.
-    public function hasReturned($bookid)
-    {
-        // Use the borrow relationship to filter the records by book_id.
-        $borrow = Borrow::find($bookid);
-        return $this->$borrow->where('book_id', $bookid)->contains('status', 'returned');
-    }
 }
