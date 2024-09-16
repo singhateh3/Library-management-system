@@ -11,32 +11,81 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <table class="min-w-full table-auto" style="background-color: rgb(234, 217, 217)">
-                        <thead>
-                            <tr>
-                                <th class="px-4 py-2 text-left text-gray-700">Metric</th>
-                                <th class="px-4 py-2 text-left text-gray-700">Count</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="bg-gray-100">
-                                <td class="border px-4 py-2">Total Books</td>
-                                <td class="border px-4 py-2">{{ $books }}</td>
-                            </tr>
-                            <tr>
-                                <td class="border px-4 py-2">Total Users</td>
-                                <td class="border px-4 py-2">{{ $users }}</td>
-                            </tr>
-                            <tr class="bg-gray-100">
-                                <td class="border px-4 py-2">Total Borrowed</td>
-                                <td class="border px-4 py-2">{{ $borrowed }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+            {{-- <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg"> --}}
+            <div class="p-6 text-gray-900">
+
+                <div class="row">
+                    <div
+                        class="col-md-3 border-r-amber-200 p-lg-3 w-64 h-16 bg-black text-white p-3 rounded-md gap-2 m-2">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Total Users</h5>
+                            </div>
+                            <div class="card-body">
+                                <strong>{{ $users }}</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-md-3 border-r-amber-200 p-lg-3 w-64 h-16 bg-red-500 text-white p-3 rounded-md gap-2 m-2">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Total Books</h5>
+                            </div>
+                            <div class="card-body">
+                                <strong>{{ $books }}</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-md-3 border-r-amber-200 p-lg-3 w-64 h-16 bg-red-500 text-white p-3 rounded-md gap-2 m-2">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Total Borrowed</h5>
+                            </div>
+                            <div class="card-body">
+                                <strong>{{ $borrowed }}</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-md-3 border-r-amber-200 p-lg-3 w-64 h-16 bg-red-500 text-white p-3 rounded-md gap-2 m-2">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Total Users</h5>
+                            </div>
+                            <div class="card-body">
+                                <strong>{{ $users }}</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-md-3 border-r-amber-200 p-lg-3 w-64 h-16 bg-red-500 text-white p-3 rounded-md gap-2 m-2">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Total Users</h5>
+                            </div>
+                            <div class="card-body">
+                                <strong>{{ $users }}</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-md-3 border-r-amber-200 p-lg-3 w-64 h-16 bg-red-500 text-white p-3 rounded-md gap-2 m-2">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Total Users</h5>
+                            </div>
+                            <div class="card-body">
+                                <strong>{{ $users }}</strong>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+
             </div>
+            {{-- </div> --}}
         </div>
     </div>
 

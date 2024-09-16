@@ -14,12 +14,13 @@
                 <div class="p-6 text-gray-900">
 
                     <body>
-                        <div>
-                            <h1>Users</h1>
+                        <div class="mb-5">
+                            <a href="{{ route('user.create') }}" class="p-4 rounded-lg text-white bg-green-500">Add
+                                User</a>
                         </div>
                         <div>
-                            <table>
-                                <tr>
+                            <table class="table rounded-lg border-collapse bg-slate-50 full-width w-full">
+                                <tr class="bg-black text-white">
                                     <th
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Name</th>
@@ -31,7 +32,7 @@
                                         Role</th>
                                     <th
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Password
+                                        Tools
                                     </th>
                                 </tr>
                                 @foreach ($users as $user)
@@ -45,30 +46,25 @@
                                         <td
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             {{ $user->role }}</td>
-                                        <td
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            {{ $user->password }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <a href="{{ route('user.edit', $user->id) }}"
-                                                style="color:rgb(53, 53, 177) ">Edit</a>
+
+                                        <td class="px-6 py-4 whitespace-nowrap ">
+                                            <div class="d-flex justify-between w-auto">
+                                                <a href="{{ route('user.edit', $user->id) }}"
+                                                    style="color:rgb(53, 53, 177) ">Edit</a>
+                                                <a href="{{ route('user.show', $user->id) }}"
+                                                    style="color:green">view</a>
+                                                <form action="{{ route('user.destroy', $user->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="delete" style="color: red">Delete</button>
+                                                </form>
+                                            </div>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <a href="{{ route('user.show', $user->id) }}" style="color:green">view</a>
-                                        </td>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <form action="{{ route('user.destroy', $user->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="delete" style="color: red">Delete</button>
-                                            </form>
-                                        </td>
+
                                     </tr>
                                 @endforeach
                             </table>
-                            <div>
-                                <a href="{{ route('user.create') }}" style="color: blue">Add User</a>
-                            </div>
+
                         </div>
                     </body>
                 </div>
