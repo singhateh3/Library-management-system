@@ -29,8 +29,11 @@
 
                             <div style="margin-bottom: 15px;">
                                 <label for="role" style="display: block; margin-bottom: 5px;">Role</label>
-                                <input type="text" name="role" placeholder="Role" required
-                                    style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                                <select name="role" id="">
+                                    <option value="admin">Admin</option>
+                                    <option value="student">Student</option>
+                                    <option value="librarian">Librarian</option>
+                                </select>
                             </div>
 
                             <div style="margin-bottom: 15px;">
