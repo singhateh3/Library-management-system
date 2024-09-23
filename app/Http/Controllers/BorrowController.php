@@ -15,27 +15,27 @@ class BorrowController extends Controller
     {
         $book = Book::find($id);
 
-        // Check if the book exists
-        if (!$book) {
-            return redirect()->back();
-        }
+        $borrow = Borrow::where('book_id', $id)->exists();
 
+        if ($borrow) {
+            return redirect()->back()->with(['message' => 'Book is currently borrowed and cannot be borrowed again until returned or rejected.'], 400);
+        }
         // Check if the book can be borrowed
         if ($book->status === 'available' && $book->quantity > 0) {
-
-
             // Create a borrow record
             $borrow = Borrow::create([
-                'book_id' => $book->id,
-                'student_id' => Auth::user()->id,
+
+                'book_id' => $id,
+                'student_id' => Auth::id(),
+                'status'  => 'pending',
                 'borrow_date' => now(),
                 'return_date' => Carbon::now()->addDays(10)->format('Y-m-d'),
+
             ]);
 
-            return redirect()->route('book.index');
-        }
 
-        return redirect()->back();
+            return redirect()->back()->with(['message' => 'Book borrowed successfully!']);
+        }
     }
 
     public function book_return($id)
@@ -45,6 +45,27 @@ class BorrowController extends Controller
         // update the status to returned so the the librarian can see it as returned
         $borrow->update(['status' => 'returned']);
         $borrow->save();
+        return redirect()->back();
+    }
+
+    public function cancel_request($id)
+    {
+        // Find the borrow record by its ID
+        $borrowRecord = Borrow::find($id);
+        $book = Book::find($borrowRecord->book_id); // Assuming $id refers to the borrow record, not the book directly
+
+        // Check if the record exists
+        if (!$borrowRecord) {
+            return redirect()->back();
+        }
+
+        // Increment the book quantity since the borrow was canceled
+        $book->increment('quantity');
+        $book->save();
+
+        // Delete the borrow record
+        $borrowRecord->delete();
+
         return redirect()->back();
     }
 }

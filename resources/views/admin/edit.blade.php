@@ -59,7 +59,7 @@
                                     style="width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Submit</button>
                             </form>
                             <div style="text-align: center; margin-top: 15px;">
-                                <a href="{{ route('book.index') }}"
+                                <a href="{{ route('admin.index') }}"
                                     style="text-decoration: none; color: #007bff;">Cancel</a>
                             </div>
                         </div>

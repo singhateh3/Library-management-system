@@ -183,10 +183,11 @@ class AdminController extends Controller
 
     public function dashboard()
     {
+        $user = auth()->user();
         $books = Book::count();
         $users = User::count();
         $borrowed = Borrow::count();
 
-        return view('dashboard', compact('books', 'users', 'borrowed'));
+        return view('dashboard', compact('books', 'users', 'borrowed', 'user'));
     }
 }

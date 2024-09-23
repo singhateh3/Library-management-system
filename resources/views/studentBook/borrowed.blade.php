@@ -28,6 +28,9 @@
                                         <th
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Return Date</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Action</th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
@@ -37,9 +40,16 @@
                                             <td class="px-6 py-4 whitespace-nowrap">{{ $book->status }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap">{{ $book->borrow_date }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap">{{ $book->return_date }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap"><a
-                                                    href="{{ route('book_return', $book->id) }}"
-                                                    style="color: gold">Return</a></td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                @if ($book->status == 'pending')
+                                                    <a href="{{ route('cancel_request', $book->id) }}"
+                                                        class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline">cancel</a>
+                                                @elseif ($book->status == 'approve')
+                                                    <a href="{{ route('book_return', $book->id) }}"
+                                                        class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline">Return</a>
+                                                @endif
+                                            </td>
+
                                         </tr>
                                     @endforeach
                                 </tbody>

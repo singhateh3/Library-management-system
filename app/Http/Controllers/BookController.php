@@ -54,7 +54,7 @@ class BookController extends Controller
         ]);
         $book = Book::find($id);
         $book->update($validated);
-        return redirect()->route('book.index');
+        return redirect()->route('admin.index');
     }
     public function destroy($id)
     {
