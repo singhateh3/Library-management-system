@@ -16,6 +16,7 @@ class Borrow extends Pivot
     }
 
 
+
     public function book(): BelongsTo
     {
         return $this->belongsTo(Book::class, 'book_id', 'id');
@@ -59,7 +60,7 @@ class Borrow extends Pivot
         } else if ($this->status === 'returned') {
             $status =   '<span class="bg-red-700">Returned</span>';
         } else {
-            $status =   '<span class="bg-blue-500">pending</span>';
+            $status =   '<span class="">pending</span>';
         }
         return $status;
     }
