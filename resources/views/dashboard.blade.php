@@ -5,88 +5,58 @@
         </h2>
     </x-slot>
 
-
-
-
-
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            {{-- <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg"> --}}
-            <div class="p-6 text-gray-900">
+        {{-- Admin Section --}}
+        @can('isAdmin')
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {{-- Admin cards --}}
+                    <x-dashboard-card title="Total Users" :count="$users" bgColor="bg-black" />
+                    <x-dashboard-card title="Total Books" :count="$books" bgColor="bg-red-500" />
+                    <x-dashboard-card title="Total Borrowed" :count="$borrowed" bgColor="bg-blue-500" />
+                </div>
+            </div>
+        @endcan
 
-                <div class="row">
-                    <div
-                        class="col-md-3 border-r-amber-200 p-lg-3 w-64 h-16 bg-black text-white p-3 rounded-md gap-2 m-2">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="card-title">Total Users</h5>
-                            </div>
-                            <div class="card-body">
-                                <strong>{{ $users }}</strong>
-                            </div>
-                        </div>
+        {{-- Student Section --}}
+        @can('isStudent')
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {{-- Student cards --}}
+                    <x-dashboard-card title="Approved Books" :count="$approved_book" bgColor="bg-green-500" />
+                    <x-dashboard-card title="Rejected Books" :count="$rejected_book" bgColor="bg-red-500" />
+                    <x-dashboard-card title="Pending Books" :count="$pending_book" bgColor="bg-yellow-500" />
+                </div>
+            </div>
+        @endcan
+
+        {{-- Librarian Section --}}
+        @can('isLibrarian')
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"> {{-- Responsive grid layout --}}
+                    {{-- Librarian cards --}}
+                    <div class="bg-green-500 text-white p-4 rounded-lg shadow-md">
+                        <h2 class="text-xl font-bold">Approved Books</h2>
+                        <p class="text-3xl font-semibold">{{ $approve }}</p>
                     </div>
-                    <div
-                        class="col-md-3 border-r-amber-200 p-lg-3 w-64 h-16 bg-red-500 text-white p-3 rounded-md gap-2 m-2">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="card-title">Total Books</h5>
-                            </div>
-                            <div class="card-body">
-                                <strong>{{ $books }}</strong>
-                            </div>
-                        </div>
+                    <div class="bg-red-500 text-white p-4 rounded-lg shadow-md">
+                        <h2 class="text-xl font-bold">Rejected Books</h2>
+                        <p class="text-3xl font-semibold">{{ $reject }}</p>
                     </div>
-                    <div
-                        class="col-md-3 border-r-amber-200 p-lg-3 w-64 h-16 bg-red-500 text-white p-3 rounded-md gap-2 m-2">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="card-title">Total Borrowed</h5>
-                            </div>
-                            <div class="card-body">
-                                <strong>{{ $borrowed }}</strong>
-                            </div>
-                        </div>
+                    <div class="bg-yellow-500 text-white p-4 rounded-lg shadow-md">
+                        <h2 class="text-xl font-bold">Pending Books</h2>
+                        <p class="text-3xl font-semibold">{{ $pending }}</p>
                     </div>
-                    <div
-                        class="col-md-3 border-r-amber-200 p-lg-3 w-64 h-16 bg-red-500 text-white p-3 rounded-md gap-2 m-2">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="card-title">Total Users</h5>
-                            </div>
-                            <div class="card-body">
-                                <strong>{{ $users }}</strong>
-                            </div>
-                        </div>
-                    </div>
-                    <div
-                        class="col-md-3 border-r-amber-200 p-lg-3 w-64 h-16 bg-red-500 text-white p-3 rounded-md gap-2 m-2">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="card-title">Total Users</h5>
-                            </div>
-                            <div class="card-body">
-                                <strong>{{ $users }}</strong>
-                            </div>
-                        </div>
-                    </div>
-                    <div
-                        class="col-md-3 border-r-amber-200 p-lg-3 w-64 h-16 bg-red-500 text-white p-3 rounded-md gap-2 m-2">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="card-title">Total Users</h5>
-                            </div>
-                            <div class="card-body">
-                                <strong>{{ $users }}</strong>
-                            </div>
-                        </div>
+                    <div class="bg-blue-500 text-white p-4 rounded-lg shadow-md">
+                        <h2 class="text-xl font-bold">Returned Books</h2>
+                        <p class="text-3xl font-semibold">{{ $return }}</p>
                     </div>
                 </div>
-
-
             </div>
-            {{-- </div> --}}
-        </div>
+        @endcan
+
+
     </div>
+
 
 </x-app-layout>

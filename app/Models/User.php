@@ -62,6 +62,8 @@ class User extends Authenticatable
         return $this->hasMany(Borrow::class, 'student_id', 'id');
     }
 
+
+
     // PRACTISE
     // 1. Create a method in your User model to check if a user has borrowed a specific book and if that book has been returned
     // Create a method named hasReturnedBook($bookId) in the User model.

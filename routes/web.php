@@ -71,6 +71,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/student/books', [AdminController::class, 'borrowed_books'])->name('borrowed_books');
     // let student return a book
     Route::get('/book/{id}return', [BorrowController::class, 'book_return'])->name('book_return');
+    Route::get('/book/{id}cancel', [BorrowController::class, 'cancel_request'])->name('cancel_request');
 
     // total books
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
