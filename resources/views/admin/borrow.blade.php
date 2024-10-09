@@ -9,55 +9,52 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg" style="background-color: rgb(234, 217, 217)">
                 <div class="p-6 text-gray-900">
 
-                    <body>
 
-                        <div>
-                            <table>
-                                <tr>
-                                    <th class="px-6 py-4 whitespace-nowrap">Student</th>
-                                    <th class="px-6 py-4 whitespace-nowrap">Book</th>
-                                    <th class="px-6 py-4 whitespace-nowrap">Borrow Date</th>
+                    <table>
+                        <tr>
+                            <th class="px-6 py-4 whitespace-nowrap">Student</th>
+                            <th class="px-6 py-4 whitespace-nowrap">Book</th>
+                            <th class="px-6 py-4 whitespace-nowrap">Borrow Date</th>
 
-                                    <th class="px-6 py-4 whitespace-nowrap">Status</th>
-                                    <th class="px-6 py-4 whitespace-nowrap">Action</th>
-                                </tr>
-                                @foreach ($borrowed_books as $borrow)
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $borrow->user->name }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $borrow->book->title }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $borrow->borrow_date }}</td>
+                            <th class="px-6 py-4 whitespace-nowrap">Status</th>
+                            <th class="px-6 py-4 whitespace-nowrap">Action</th>
+                        </tr>
+                        @foreach ($borrowed_books as $borrow)
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $borrow->user->name }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $borrow->book->title }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $borrow->borrow_date }}</td>
 
 
 
-                                        <td class="px-6 py-4 whitespace-nowrap">{!! $borrow->scopeISApproved() !!}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{!! $borrow->scopeISApproved() !!}</td>
 
-                                        @if ($borrow->status == 'approve')
-                                            <td>
-                                                <a href="{{ route('return_book', $borrow->id) }}"
-                                                    class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline">Returned</a>
-                                            </td>
-                                        @elseif ($borrow->status == 'pending')
-                                            <td>
-                                                <a href="{{ route('approve_book', $borrow->id) }}"
-                                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline">Approve</a>
-
-
-                                                <a href="{{ route('reject_book', $borrow->id) }}"
-                                                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline">Reject</a>
-                                            </td>
-                                        @else
-                                            <td>
-                                                <p class="px-6 py-4 whitespace-nowrap">Complete</p>
-                                            </td>
-                                        @endif
+                                @if ($borrow->status == 'approve')
+                                    <td>
+                                        <a href="{{ route('return_book', $borrow->id) }}"
+                                            class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline">Returned</a>
+                                    </td>
+                                @elseif ($borrow->status == 'pending')
+                                    <td>
+                                        <a href="{{ route('approve_book', $borrow->id) }}"
+                                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline">Approve</a>
 
 
-                                    </tr>
-                                @endforeach
-                            </table>
+                                        <a href="{{ route('reject_book', $borrow->id) }}"
+                                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline">Reject</a>
+                                    </td>
+                                @else
+                                    <td>
+                                        <p class="px-6 py-4 whitespace-nowrap">Complete</p>
+                                    </td>
+                                @endif
 
-                        </div>
-                    </body>
+
+                            </tr>
+                        @endforeach
+                    </table>
+
+
                 </div>
             </div>
         </div>
