@@ -13,144 +13,74 @@ class AdminController extends Controller
 
     public function index()
     {
-        if (auth()->user()->role == 'student') {
-            return redirect()->route('book.index');
-        }
-        $books = Book::all();
+        return $this->checkRoleAndRedirect('book.index', function(){
+            $books = Book::all();
         return view('admin.index', compact('books'));
+        } );
+    
     }
 
     public function pending_request()
     {
-        if (auth()->user()->role === 'student') {
-            return redirect()->route('borrowed_books');
-        }
+        return $this->checkRoleAndRedirect('borrowed_books', function(){
+            $borrowed_books = Borrow::pendingBorrowedBooks();
+        return view('admin.borrow', compact('borrowed_books'));
+        });
         $borrowed_books = Borrow::pendingBorrowedBooks();
         return view('admin.borrow', compact('borrowed_books'));
     }
 
     public function approved_request()
     {
-        if (auth()->user()->role === 'student') {
-            return redirect()->route('borrowed_books');
-        }
-
-
-        $borrowed_books = Borrow::approvedBorrowedBooks();
+        return $this->checkRoleAndRedirect('borrowed_books', function(){
+            $borrowed_books = Borrow::approvedBorrowedBooks();
 
         return view('admin.borrow', compact('borrowed_books'));
+        });
     }
 
     public function rejected_request()
     {
-        if (auth()->user()->role === 'student') {
-            return redirect()->route('borrowed_books');
-        }
-
-
-        $borrowed_books = Borrow::rejectedBorrowedBooks();
+        return $this->checkRoleAndRedirect('borrowed_books', function(){
+            $borrowed_books = Borrow::rejectedBorrowedBooks();
 
         return view('admin.borrow', compact('borrowed_books'));
+        }); 
     }
 
     public function returned_request()
     {
-        if (auth()->user()->role === 'student') {
-            return redirect()->route('borrowed_books');
-        }
-
-
-        $borrowed_books = Borrow::returnedBorrowedBooks();
+        return $this->checkRoleAndRedirect('borrowed_books', function() {
+            $borrowed_books = Borrow::returnedBorrowedBooks();
 
         return view('admin.borrow', compact('borrowed_books'));
+        });
+        
     }
 
     public function approve($id)
     {
-        // Find the borrow record by its ID
-        $borrowRecord = Borrow::find($id);
-        if (!$borrowRecord) {
-            return redirect()->back();
-        }
-
-        // Change the status to approve
-        $borrowRecord->status = 'approve';
-        $borrowRecord->save();
-
-        // Find the associated book
-        $book = Book::find($borrowRecord->book_id);
-        if (!$book) {
-            return redirect()->back();
-        }
-
-        // Get the student ID from the authenticated user
-        $student_id = Auth::user()->id;
-
-        // Check if this student has already approve this book
-        $alreadyReturned = Borrow::where('book_id', $book->id)->where('student_id', $student_id)->where('status', 'approve')->count();
-
-        if (!$alreadyReturned) {
-            $book->decrement('quantity');
-
-            if ($book->quantity !== 0) {
-                $book->status = 'available';
-            }
-            $book->save();
-        }
-
-        return redirect()->back();
+        return $this->updateBorrowStatus($id, 'approve', function($borrowRecord, $book){
+            // update the book quantity
+            $this->updateBookQuantity($book, -1);
+        });
     }
 
 
     public function return_book($id)
     {
-        // Find the borrow record by its ID
-        $borrowRecord = Borrow::find($id);
-        if (!$borrowRecord) {
-            return redirect()->back();
-        }
-
-        // Change the status to returned
-        $borrowRecord->status = 'returned';
-        $borrowRecord->save();
-
-        // Find the associated book
-        $book = Book::find($borrowRecord->book_id);
-        if (!$book) {
-            return redirect()->back();
-        }
-
-        // Get the student ID from the authenticated user
-        $student_id = Auth::user()->id;
-
-        // Check if this student has already returned this book
-        $alreadyReturned = Borrow::where('book_id', $book->id)->where('student_id', $student_id)->where('status', 'returned')->count();
-
-        if (!$alreadyReturned) {
-            $book->increment('quantity');
-
-            if ($book->quantity !== 0) {
-                $book->status = 'available';
-            }
-            $book->save();
-        }
-
-        return redirect()->back();
+        // Update the borrow record status to 'returned'
+        return $this->updateBorrowStatus($id, 'returned', function ($borrowRecord, $book) {
+            // Update the book quantity and status if applicable
+            $this->updateBookQuantity($book, 1);
+        });
     }
 
 
     public function reject_book($id)
     {
-        // Find the borrow record by its ID
-        $borrowRecord = Borrow::find($id);
-        // check if the record exists
-        if (!$borrowRecord) {
-            return redirect()->back();
-        }
-        // change the status of the record to reject
-        $borrowRecord->status = 'reject';
-        $borrowRecord->save();
-        return redirect()->back();
+       // Update the borrow record status to 'reject'
+        return $this->updateBorrowStatus($id, 'reject');
     }
 
     public function borrowed_books()
@@ -164,21 +94,79 @@ class AdminController extends Controller
 
     public function dashboard()
     {
-        $user = auth()->user();
-        $books = Book::count();
-        $users = User::count();
-        $borrowed = Borrow::count();
-        // Borrowed by a user
-        $approved_book = Borrow::where('student_id', $user->id)->where('status', 'approve')->count();
-        $rejected_book = Borrow::where('student_id', $user->id)->where('status', 'reject')->count();
-        $pending_book = Borrow::where('student_id', $user->id)->where('status', 'pending')->count();
-        $approve = Borrow::where('status', 'approve')->count();
-        $reject = Borrow::where('status', 'reject')->count();
-        $return = Borrow::where('status', 'returned')->count();
-        $pending = Borrow::where('status', 'pending')->count();
+        $user = auth()->user(); // Get the authenticated user
+
+        return view('dashboard', [
+            'books' => Book::count(), // Total number of books
+            'users' => User::count(), // Total number of users
+            'borrowed' => Borrow::count(), // Total number of borrowed books
+            'user' => $user , // The authenticated user
+            'approved_book' =>$this->countUserBorrowedBooks($user->id, 'approve'),
+            'pending_book' =>$this->countUserBorrowedBooks($user->id, 'pending'),
+            'rejected' => $this->countUserBorrowedBooks($user->id, 'reject'),
+            'approve' => Borrow::where('status', 'approve')->count(), // Total approved books
+            'reject' => Borrow::where('status', 'reject')->count(), // Total rejected books
+            'return' => Borrow::where('status', 'returned')->count(), // Total returned books
+            'pending' => Borrow::where('status', 'pending')->count(), // Total pending books
 
 
+        ]);
+    }
 
-        return view('dashboard', compact('books', 'users', 'borrowed', 'user', 'approved_book', 'rejected_book', 'pending_book', 'approve', 'reject', 'return', 'pending'));
+        // Check user role and redirect if they are a student
+
+    private function checkRoleAndRedirect($route, $callback)
+    {
+        if (auth()->user()->role === 'student') {
+            return redirect()->route($route);
+        }
+        // Execute the callback to return the intended view if the user is not a student
+
+        return $callback();
+    }
+
+    private function updateBorrowStatus($id, $status, $callback = null)
+    {
+        // Find the borrow record by its ID
+        $borrowRecord = Borrow::find($id);
+        if (!$borrowRecord) {
+            return redirect()->back();
+        }
+
+        // update the status of the borrow record
+        $borrowRecord->status = $status;
+        $borrowRecord->save(); // Save the changes
+
+        // Find the associated book
+        $book = Book::find($borrowRecord->book_id);
+        if (!$book) {
+            return redirect()->back();
+        }
+
+        // if callback is provided, execute it with the borrow record and book
+        if ($callback) {
+            $callback($borrowRecord, $book);
+        }
+        return redirect()->back();
+    }
+
+    private function updateBookQuantity($book, $change)
+    {
+        $book->increment('quantity', $change);// Update the quantity by the change value
+        // If the quantity is greater than 0, set the book status to 'available'
+        if ($book->quantity > 0) {
+            $book->status = 'available';
+        }
+        $book->save();
+
+        
+        
+    }
+    // count borrowed books by a user and status
+    private function countUserBorrowedBooks($userId, $status)
+    {
+        return Borrow::where('student_id', $userId)->where('status', $status)->count();// Count borrowed books for the user with the specified status
     }
 }
+
+
