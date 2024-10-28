@@ -13,18 +13,17 @@ class AdminController extends Controller
 
     public function index()
     {
-        return $this->checkRoleAndRedirect('book.index', function(){
+        return $this->checkRoleAndRedirect('book.index', function () {
             $books = Book::all();
-        return view('admin.index', compact('books'));
-        } );
-    
+            return view('admin.index', compact('books'));
+        });
     }
 
     public function pending_request()
     {
-        return $this->checkRoleAndRedirect('borrowed_books', function(){
+        return $this->checkRoleAndRedirect('borrowed_books', function () {
             $borrowed_books = Borrow::pendingBorrowedBooks();
-        return view('admin.borrow', compact('borrowed_books'));
+            return view('admin.borrow', compact('borrowed_books'));
         });
         $borrowed_books = Borrow::pendingBorrowedBooks();
         return view('admin.borrow', compact('borrowed_books'));
@@ -32,35 +31,34 @@ class AdminController extends Controller
 
     public function approved_request()
     {
-        return $this->checkRoleAndRedirect('borrowed_books', function(){
+        return $this->checkRoleAndRedirect('borrowed_books', function () {
             $borrowed_books = Borrow::approvedBorrowedBooks();
 
-        return view('admin.borrow', compact('borrowed_books'));
+            return view('admin.borrow', compact('borrowed_books'));
         });
     }
 
     public function rejected_request()
     {
-        return $this->checkRoleAndRedirect('borrowed_books', function(){
+        return $this->checkRoleAndRedirect('borrowed_books', function () {
             $borrowed_books = Borrow::rejectedBorrowedBooks();
 
-        return view('admin.borrow', compact('borrowed_books'));
-        }); 
+            return view('admin.borrow', compact('borrowed_books'));
+        });
     }
 
     public function returned_request()
     {
-        return $this->checkRoleAndRedirect('borrowed_books', function() {
+        return $this->checkRoleAndRedirect('borrowed_books', function () {
             $borrowed_books = Borrow::returnedBorrowedBooks();
 
-        return view('admin.borrow', compact('borrowed_books'));
+            return view('admin.borrow', compact('borrowed_books'));
         });
-        
     }
 
     public function approve($id)
     {
-        return $this->updateBorrowStatus($id, 'approve', function($borrowRecord, $book){
+        return $this->updateBorrowStatus($id, 'approve', function ($borrowRecord, $book) {
             // update the book quantity
             $this->updateBookQuantity($book, -1);
         });
@@ -79,7 +77,7 @@ class AdminController extends Controller
 
     public function reject_book($id)
     {
-       // Update the borrow record status to 'reject'
+        // Update the borrow record status to 'reject'
         return $this->updateBorrowStatus($id, 'reject');
     }
 
@@ -100,10 +98,10 @@ class AdminController extends Controller
             'books' => Book::count(), // Total number of books
             'users' => User::count(), // Total number of users
             'borrowed' => Borrow::count(), // Total number of borrowed books
-            'user' => $user , // The authenticated user
-            'approved_book' =>$this->countUserBorrowedBooks($user->id, 'approve'),
-            'pending_book' =>$this->countUserBorrowedBooks($user->id, 'pending'),
-            'rejected' => $this->countUserBorrowedBooks($user->id, 'reject'),
+            'user' => $user, // The authenticated user
+            'approved_book' => $this->countUserBorrowedBooks($user->id, 'approve'),
+            'pending_book' => $this->countUserBorrowedBooks($user->id, 'pending'),
+            'rejected_book' => $this->countUserBorrowedBooks($user->id, 'reject'),
             'approve' => Borrow::where('status', 'approve')->count(), // Total approved books
             'reject' => Borrow::where('status', 'reject')->count(), // Total rejected books
             'return' => Borrow::where('status', 'returned')->count(), // Total returned books
@@ -113,7 +111,7 @@ class AdminController extends Controller
         ]);
     }
 
-        // Check user role and redirect if they are a student
+    // Check user role and redirect if they are a student
 
     private function checkRoleAndRedirect($route, $callback)
     {
@@ -152,21 +150,16 @@ class AdminController extends Controller
 
     private function updateBookQuantity($book, $change)
     {
-        $book->increment('quantity', $change);// Update the quantity by the change value
+        $book->increment('quantity', $change); // Update the quantity by the change value
         // If the quantity is greater than 0, set the book status to 'available'
         if ($book->quantity > 0) {
             $book->status = 'available';
         }
         $book->save();
-
-        
-        
     }
     // count borrowed books by a user and status
     private function countUserBorrowedBooks($userId, $status)
     {
-        return Borrow::where('student_id', $userId)->where('status', $status)->count();// Count borrowed books for the user with the specified status
+        return Borrow::where('student_id', $userId)->where('status', $status)->count(); // Count borrowed books for the user with the specified status
     }
 }
-
-

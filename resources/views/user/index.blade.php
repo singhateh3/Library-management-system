@@ -4,71 +4,75 @@
             {{ __('ALL USERS') }}
         </h2>
     </x-slot>
-
-
-
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg"style="background-color: rgb(234, 217, 217)">
+            @if (session('message'))
+                <div class="alert alert-message bg-green-500 text-white font-semibold text-center py-2 px-4 rounded m-1">
+                    {{ session('message') }}</div>
+            @endif
+            <div class="mb-4 flex justify-end">
+                <a href="{{ route('user.create') }}"
+                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Add New User
+                </a>
+            </div>
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg" style="background-color: rgb(8, 8, 8)">
                 <div class="p-6 text-gray-900">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead>
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
+                                    Name</th>
+                                <th class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
+                                    Email</th>
+                                <th class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
+                                    Role</th>
+                                <th class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
+                                    Tools
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-white">
+                            @foreach ($users as $user)
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-black ">
+                                        <strong>{{ $user->name }}</strong>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-black ">
+                                        <strong>{{ $user->email }}</strong>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-black ">
+                                        <strong>{{ $user->role }}</strong>
+                                    </td>
 
-                    <body>
-                        <div class="mb-5">
-                            <a href="{{ route('user.create') }}" class="p-4 rounded-lg text-white bg-green-500">Add
-                                User</a>
-                        </div>
-                        <div>
-                            <table class="table rounded-lg border-collapse bg-slate-50 full-width w-full">
-                                <tr class="bg-black text-white">
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Name</th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Email</th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Role</th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Tools
-                                    </th>
+                                    <td class="px-6 py-4 whitespace-nowrap text-black ">
+                                        <div class="d-flex justify-between w-auto">
+                                            <a href="{{ route('user.edit', $user->id) }}"
+                                                class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline">Edit</a>
+                                            <a href="{{ route('user.show', $user->id) }}"
+                                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline">view</a>
+                                            <form action="{{ route('user.destroy', $user->id) }}" method="POST"
+                                                class="inline-block">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    onclick="return confirm('Are you sure you want to delete this post?')"
+                                                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline">
+                                                    Delete
+                                                </button>
+                                        </div>
+                                    </td>
+
                                 </tr>
-                                @foreach ($users as $user)
-                                    <tr>
-                                        <td
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            {{ $user->name }}</td>
-                                        <td
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 lowercasecase tracking-wider">
-                                            {{ $user->email }}</td>
-                                        <td
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            {{ $user->role }}</td>
+                            @endforeach
+                        </tbody>
 
-                                        <td class="px-6 py-4 whitespace-nowrap ">
-                                            <div class="d-flex justify-between w-auto">
-                                                <a href="{{ route('user.edit', $user->id) }}"
-                                                    style="color:rgb(53, 53, 177) ">Edit</a>
-                                                <a href="{{ route('user.show', $user->id) }}"
-                                                    style="color:green">view</a>
-                                                <form action="{{ route('user.destroy', $user->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="delete" style="color: red">Delete</button>
-                                                </form>
-                                            </div>
-                                        </td>
+                    </table>
 
-                                    </tr>
-                                @endforeach
-                            </table>
-
-                        </div>
-                    </body>
                 </div>
+
             </div>
         </div>
+    </div>
     </div>
 </x-app-layout>

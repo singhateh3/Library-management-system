@@ -8,7 +8,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg" style="background-color: rgb(234, 217, 217)">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg" style="background-color: rgb(2, 2, 2)">
                 <div class="p-6 text-gray-900">
 
                     <body>
@@ -17,29 +17,36 @@
                                 <thead>
                                     <tr>
                                         <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Book ID</th>
+                                            class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                            BOOK ID</th>
                                         <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Status</th>
+                                            class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                            STATUS</th>
                                         <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Borrow Date</th>
+                                            class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                            BORROW DATE</th>
                                         <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Return Date</th>
+                                            class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                            RETURN DATE</th>
                                         <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Action</th>
+                                            class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                                            ACTION</th>
                                     </tr>
                                 </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
+                                <tbody class="bg-white divide-y divide-white">
                                     @foreach ($borrowed_books as $book)
                                         <tr>
-                                            <td class="px-6 py-4 whitespace-nowrap">{{ $book->book->title }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap">{{ $book->status }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap">{{ $book->borrow_date }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap">{{ $book->return_date }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <strong>{{ $book->book->title }}</strong>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <strong>{{ $book->status }}</strong>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <strong>{{ $book->borrow_date }}</strong>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <strong>{{ $book->return_date }}</strong></td>
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 @if ($book->status == 'pending')
                                                     <a href="{{ route('cancel_request', $book->id) }}"

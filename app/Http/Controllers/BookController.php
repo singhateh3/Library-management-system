@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BookStoreRequest;
+use App\Http\Requests\BookUpdateRequest;
 use App\Models\Book;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
@@ -19,19 +21,14 @@ class BookController extends Controller
     {
         return view('admin.create');
     }
-    public function store(Request $request)
+    public function store(BookStoreRequest $request)
     {
 
-        $validated = $request->validate([
-            'title' => 'required',
-            'author' => 'required',
-            'status' => 'required',
-            'quantity' => 'required'
-        ]);
+        $validated = $request->validated();
         $book = new Book($validated);
         $book->status = $book->quantity <= 0 ? 'unavailable' : 'available';
         $book->save();
-        return redirect()->route('admin.index');
+        return redirect()->route('admin.index')->with('message', 'Book added successfully');
     }
     public function show($id)
     {
@@ -44,17 +41,12 @@ class BookController extends Controller
 
         return view('admin.edit', compact('book'));
     }
-    public function update(Request $request, $id)
+    public function update(BookUpdateRequest $request, $id)
     {
-        $validated = $request->validate([
-            'title' => 'required',
-            'author' => 'required',
-            'status' => 'required',
-            'quantity' => 'required'
-        ]);
+        $validated = $request->validated();
         $book = Book::find($id);
         $book->update($validated);
-        return redirect()->route('admin.index');
+        return redirect()->route('admin.index')->with('message', 'Book Updated successfully');
     }
     public function destroy($id)
     {

@@ -6,52 +6,52 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center" style="background-color: rgb(3, 2, 2)">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <x-application-logo class="block h-9 w-auto fill-current text-white" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex text-white">
                     @if (auth()->user()->role === 'admin')
-                        <x-nav-link :href="route('user.index')" :active="request()->routeIs('user.index')">
+                        <x-nav-link :href="route('user.index')" :active="request()->routeIs('user.index')" class="text-white">
                             {{ __('USERS') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.index')">
+                        <x-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.index')" class="text-white">
                             {{ __('BOOKS') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('pending_request')" :active="request()->routeIs('pending_request')">
+                        <x-nav-link :href="route('pending_request')" :active="request()->routeIs('pending_request')" class="text-white">
                             {{ __('PENDING') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('approved_request')" :active="request()->routeIs('approved_request')">
+                        <x-nav-link :href="route('approved_request')" :active="request()->routeIs('approved_request')" class="text-white">
                             {{ __('APPROVED') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('rejected_request')" :active="request()->routeIs('rejected_request')">
+                        <x-nav-link :href="route('rejected_request')" :active="request()->routeIs('rejected_request')" class="text-white">
                             {{ __('REJECTED') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('returned_request')" :active="request()->routeIs('returned_request')">
+                        <x-nav-link :href="route('returned_request')" :active="request()->routeIs('returned_request')" class="text-white">
                             {{ __('RETURNED') }}
                         </x-nav-link>
                     @elseif (auth()->user()->role === 'librarian')
-                        <x-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.index')">
+                        <x-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.index')" class="text-white">
                             {{ __('BOOKS') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('pending_request')" :active="request()->routeIs('pending_request')">
+                        <x-nav-link :href="route('pending_request')" :active="request()->routeIs('pending_request')" class="text-white">
                             {{ __('PENDING') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('approved_request')" :active="request()->routeIs('approved_request')">
+                        <x-nav-link :href="route('approved_request')" :active="request()->routeIs('approved_request')" class="text-white">
                             {{ __('APPROVED') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('rejected_request')" :active="request()->routeIs('rejected_request')">
+                        <x-nav-link :href="route('rejected_request')" :active="request()->routeIs('rejected_request')" class="text-white">
                             {{ __('REJECTED') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('returned_request')" :active="request()->routeIs('returned_request')">
+                        <x-nav-link :href="route('returned_request')" :active="request()->routeIs('returned_request')" class="text-white">
                             {{ __('RETURNED') }}
                         </x-nav-link>
                     @elseif (auth()->user()->role === 'student')
-                        <x-nav-link :href="route('book.index')" :active="request()->routeIs('book.index')">
+                        <x-nav-link :href="route('book.index')" :active="request()->routeIs('book.index')" class="text-white">
                             {{ __('BOOKS') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('borrowed_books')" :active="request()->routeIs('borrowed_books')">
+                        <x-nav-link :href="route('borrowed_books')" :active="request()->routeIs('borrowed_books')" class="text-white">
                             {{ __('BORROWED BOOKS') }}
                         </x-nav-link>
                     @endif
