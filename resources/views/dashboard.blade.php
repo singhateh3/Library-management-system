@@ -6,7 +6,7 @@
             background-position: center;
             background-attachment: fixed;
             min-height: 100vh;
-            /* Ensures it covers the viewport height */
+            
         }
     </style>
 
