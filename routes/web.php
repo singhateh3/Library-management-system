@@ -75,6 +75,9 @@ Route::middleware('auth')->group(function () {
 
     // total books
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+
+    // search
+    Route::get('/search', [BookController::class, 'search'])->name('search');
 });
 
 require __DIR__ . '/auth.php';

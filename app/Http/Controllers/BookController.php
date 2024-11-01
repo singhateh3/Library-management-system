@@ -8,6 +8,8 @@ use App\Models\Book;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 
+use function Laravel\Prompts\search;
+
 class BookController extends Controller
 {
     public function index()
@@ -53,5 +55,13 @@ class BookController extends Controller
         $book = Book::find($id);
         $book->delete();
         return redirect()->route('admin.index');
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->search;
+        $books = Book::where('title', 'like', "%{$search}%")->orwhere('author', 'like', "%{$search}%")->get();
+
+        return view('books.search', compact('books', 'search'));
     }
 }

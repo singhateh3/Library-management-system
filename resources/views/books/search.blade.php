@@ -7,36 +7,13 @@
             background-attachment: fixed;
             min-height: 100vh;
         }
-
-        .search-form {
-            background-color: #080808;
-            padding: 1rem;
-        }
-
-        .form-input input {
-            padding: 0.5rem;
-            border-radius: 0.25rem;
-            margin-right: 0.5rem;
-        }
-
-        .btn {
-            font-bold py-1 px-3 rounded focus: outline-none focus:shadow-outline;
-        }
-
-        .bg-dark {
-            background-color: rgb(8, 8, 8);
-        }
     </style>
 
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Available Books') }}
+            {{ __('Books You Searched') }}
         </h2>
     </x-slot>
-
-    @php
-        $authUser = auth()->user()->load('borrow');
-    @endphp
 
     <div class="background-wrapper py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -46,16 +23,10 @@
                 </div>
             @endif
 
-            <div class="bg-dark overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="search-form">
-                    <form action="{{ route('search') }}" method="GET" class="form-input">
-                        <input type="text" name="search" placeholder="Search..." required>
-                        <button type="submit"
-                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded">Search</button>
-                    </form>
-                </div>
-
-                <div class="p-6 text-white">
+            <div class="p-6 text-white">
+                @if ($books->isEmpty())
+                    <p class="text-center text-lg">No Books Found.</p>
+                @else
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead>
                             <tr>
@@ -69,7 +40,6 @@
                                     Action</th>
                             </tr>
                         </thead>
-
                         <tbody class="bg-white divide-y divide-gray-200">
                             @foreach ($books as $book)
                                 <tr>
@@ -77,13 +47,10 @@
                                     <td class="px-6 py-4 text-black"><strong>{{ $book->author }}</strong></td>
                                     <td class="px-6 py-4 text-black"><strong>{{ $book->status }}</strong></td>
                                     <td class="px-6 py-4 text-black">
-                                        @php
-                                            $borrowed = $authUser->borrow->where('book_id', $book->id);
-                                        @endphp
-                                        @if ($borrowed->where('status', 'approve')->count() > 0)
+                                        @if (auth()->user()->borrow->where('book_id', $book->id)->where('status', 'approve')->count() > 0)
                                             <span
                                                 class="bg-orange-500 text-white font-bold py-1 px-3 rounded">Borrowed</span>
-                                        @elseif ($borrowed->where('status', 'pending')->count() > 0)
+                                        @elseif (auth()->user()->borrow->where('book_id', $book->id)->where('status', 'pending')->count() > 0)
                                             <a href="{{ route('borrow.create', $book->id) }}"
                                                 class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">Requested</a>
                                         @else
@@ -95,7 +62,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                </div>
+                @endif
             </div>
         </div>
     </div>
