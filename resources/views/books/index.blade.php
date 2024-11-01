@@ -1,4 +1,5 @@
 <x-app-layout>
+<<<<<<< HEAD
     <style>
         .background-wrapper {
             background-image: url('{{ asset('images/books.jpeg') }}');
@@ -28,6 +29,17 @@
         }
     </style>
 
+=======
+<style>
+    .background-wrapper {
+        background-image: url("{{ asset('images/books.jpeg') }}");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        min-height: 100vh;
+    }
+</style>
+>>>>>>> 12761296760f59a48c3960fb7d0c4270ff864d0a
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Available Books') }}

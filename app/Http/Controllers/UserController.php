@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\userStoreRequest;
+use App\Http\Requests\userUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -20,14 +22,9 @@ class UserController extends Controller
     {
         return view('user.create');
     }
-    public function store(Request $request)
+    public function store(userStoreRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'role' => ['required', 'in:admin,librarian,student'],
-            'password' => 'required',
-        ]);
+        $validated = $request->validated();
         // create a user and hash the password
         User::create(array_merge(Arr::except($validated, ['password']), ['password' => Hash::make($request->password)]));
         // dd($user);
@@ -43,14 +40,9 @@ class UserController extends Controller
         $user = User::find($id);
         return view('user.edit', compact('user'));
     }
-    public function update(Request $request, $id)
+    public function update(userUpdateRequest $request, $id)
     {
-        $validated = $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'role' => 'required',
-            'password' => 'required',
-        ]);
+        $validated = $request->validated();
         $user = User::find($id);
         $user->update($validated);
         return redirect()->route('user.index');
