@@ -7,6 +7,10 @@
             background-attachment: fixed;
             min-height: 100vh;
         }
+
+        .bg-dark {
+            background-color: rgb(8, 8, 8);
+        }
     </style>
 
     <x-slot name="header">
@@ -23,46 +27,57 @@
                 </div>
             @endif
 
-            <div class="p-6 text-white">
-                @if ($books->isEmpty())
-                    <p class="text-center text-lg">No Books Found.</p>
-                @else
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead>
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
-                                    Title</th>
-                                <th class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
-                                    Author</th>
-                                <th class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
-                                    Status</th>
-                                <th class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
-                                    Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach ($books as $book)
+            <div class="bg-dark overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-white">
+                    @if ($books->isEmpty())
+                        <p class="text-center text-lg">No Books Found.</p>
+                    @else
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead>
                                 <tr>
-                                    <td class="px-6 py-4 text-black"><strong>{{ $book->title }}</strong></td>
-                                    <td class="px-6 py-4 text-black"><strong>{{ $book->author }}</strong></td>
-                                    <td class="px-6 py-4 text-black"><strong>{{ $book->status }}</strong></td>
-                                    <td class="px-6 py-4 text-black">
-                                        @if (auth()->user()->borrow->where('book_id', $book->id)->where('status', 'approve')->count() > 0)
-                                            <span
-                                                class="bg-orange-500 text-white font-bold py-1 px-3 rounded">Borrowed</span>
-                                        @elseif (auth()->user()->borrow->where('book_id', $book->id)->where('status', 'pending')->count() > 0)
-                                            <a href="{{ route('borrow.create', $book->id) }}"
-                                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">Requested</a>
-                                        @else
-                                            <a href="{{ route('borrow.create', $book->id) }}"
-                                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded">Borrow</a>
-                                        @endif
-                                    </td>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
+                                        Title</th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
+                                        Author</th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
+                                        Status</th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
+                                        Action</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                @endif
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                @foreach ($books as $book)
+                                    <tr>
+                                        <td class="px-6 py-4 text-black"><strong>{{ $book->title }}</strong></td>
+                                        <td class="px-6 py-4 text-black"><strong>{{ $book->author }}</strong></td>
+                                        <td class="px-6 py-4 text-black"><strong>{{ $book->status }}</strong></td>
+                                        <td class="px-6 py-4 text-black">
+                                            @php
+                                                $borrowed = auth()
+                                                    ->user()
+                                                    ->borrow->where('book_id', $book->id);
+                                            @endphp
+                                            @if ($borrowed->where('status', 'approve')->count() > 0)
+                                                <span
+                                                    class="bg-orange-500 text-white font-bold py-1 px-3 rounded">Borrowed</span>
+                                            @elseif ($borrowed->where('status', 'pending')->count() > 0)
+                                                <a href="{{ route('borrow.create', $book->id) }}"
+                                                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">Requested</a>
+                                            @else
+                                                <a href="{{ route('borrow.create', $book->id) }}"
+                                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded">Borrow</a>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
