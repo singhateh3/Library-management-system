@@ -1,13 +1,13 @@
 <x-app-layout>
-<style>
-    .background-wrapper {
-        background-image: url("{{ asset('images/books.jpeg') }}");
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-        min-height: 100vh;
-    }
-</style>
+    <style>
+        .background-wrapper {
+            background-image: url("{{ asset('images/books.jpeg') }}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+    </style>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('BOOKS') }}
@@ -29,6 +29,13 @@
             </div>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg" style="background-color: rgb(8, 8, 8)">
                 <div class="p-6 text-gray-900">
+                    <div class="search-form">
+                        <form action="{{ route('admin_Search') }}" method="GET" class="form-input">
+                            <input type="text" name="search" placeholder="Search..." required>
+                            <button type="submit"
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded">Search</button>
+                        </form>
+                    </div>
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead>
                             <tr>

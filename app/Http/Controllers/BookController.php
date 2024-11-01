@@ -60,8 +60,17 @@ class BookController extends Controller
     public function search(Request $request)
     {
         $search = $request->search;
-        $books = Book::where('title', 'like', "%{$search}%")->orwhere('author', 'like', "%{$search}%")->get();
+        $books = Book::where('title', 'like', "%{$search}%")->orwhere('author', 'like', "%{$search}%")->paginate(10);
 
-        return view('books.search', compact('books', 'search'))->with('message', 'Here are the books that match your search criteria!');
+        return view('books.search', compact('books', 'search'))
+            ->with('message', 'Books matching your search criteria.');
+    }
+    public function admin_Search(Request $request)
+    {
+        $search = $request->input('search');
+        $books = Book::where('title', 'like', "%{$search}%")->orwhere('author', 'like', "%{$search}%")->orwhere('quantity', 'like', "%{$search}%")->paginate(10);
+
+        return view('admin.search', compact('books', 'search'))
+            ->with('message', 'Admin Search: Here are the matching books.');
     }
 }
