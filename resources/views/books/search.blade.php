@@ -41,6 +41,8 @@
                                     <th
                                         class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
                                         Author</th>
+                                    <th class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
+                                    Rating</th>
                                     <th
                                         class="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
                                         Status</th>
@@ -54,6 +56,7 @@
                                     <tr>
                                         <td class="px-6 py-4 text-black"><strong>{{ $book->title }}</strong></td>
                                         <td class="px-6 py-4 text-black"><strong>{{ $book->author }}</strong></td>
+                                        <td class="px-6 py-4 text-black"><strong>{{ number_format($book->average_rating, 1) }} Stars</strong></td>
                                         <td class="px-6 py-4 text-black"><strong>{{ $book->status }}</strong></td>
                                         <td class="px-6 py-4 text-black">
                                             @php
