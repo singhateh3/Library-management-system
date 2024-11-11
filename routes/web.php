@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\BorrowController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
 use App\Models\Borrow;
 use App\Models\User;
@@ -79,6 +80,9 @@ Route::middleware('auth')->group(function () {
     // search
     Route::get('/search', [BookController::class, 'search'])->name('search');
     Route::get('/search/admin', [BookController::class, 'admin_Search'])->name('admin_Search');
+    Route::get('/reviews/{book}', [ReviewController::class, 'createReview'])->name('review.create');
+    Route::post('/reviews/{book}', [ReviewController::class, 'storeReview'])->name('review.store');
+
 });
 
 require __DIR__ . '/auth.php';

@@ -81,4 +81,9 @@ class User extends Authenticatable
     {
         return $this->borrow()->where('status', 'returned')->get();
     }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
 }

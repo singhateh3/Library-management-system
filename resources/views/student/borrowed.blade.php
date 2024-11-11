@@ -63,6 +63,9 @@
                                                 @elseif ($book->status == 'approve')
                                                     <a href="{{ route('book_return', $book->id) }}"
                                                         class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline">Return</a>
+                                                @elseif ($book->status == 'returned')
+                                                <a href="{{ route('review.create', $book->id) }}" class="bg-green-500 hover:bg-yellow-700 text-white font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline">Review</a>
+
                                                 @endif
                                             </td>
 
@@ -83,6 +86,5 @@
         </div>
     </div>
     </div>
-    >
 
 </x-app-layout>

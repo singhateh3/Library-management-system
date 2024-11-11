@@ -15,9 +15,10 @@ class BookController extends Controller
     public function index()
     {
         $books = Book::with(['users' => ['books', 'borrow']])->get();
+        $rating = Book::with('reviews')->get();
 
         // dd($books);
-        return view('books.index', compact('books'));
+        return view('books.index', compact('books', 'rating'));
     }
     public function create()
     {
